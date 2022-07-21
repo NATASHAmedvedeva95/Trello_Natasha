@@ -314,6 +314,15 @@ deleteAll.addEventListener('click', (event) => {
     while(doneList.firstElementChild){
       doneList.firstElementChild.remove();
     }
+    addArrayElement(
+      tasksArray,
+      crypto.randomUUID(),
+      title,
+      description,
+      user,
+      new Date().toLocaleString("ru", options),
+      "done"
+    );
     createUlDone();
     createDoneList();
     addNewList(mapElement());
