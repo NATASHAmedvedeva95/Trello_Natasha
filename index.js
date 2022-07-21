@@ -31,11 +31,22 @@ const liElementsDone = tasksArray
   .map(element => {
     return createDoneLiElement(element);
   });
+const liElementsDoneDelete = tasksArray
+  .filter(element => {
+    if (element.state === "done") {
+      element.firstElementChild.remove();
+      return element;
+    }
+  })
+  .map(element => {
+    return createDoneLiElement(element);
+  });
 /// End create <li></li> elements from tasksArray
 // Create UL list with tasks
 const list = createUlList(liElementsTodo);
 const progressList = createUlProgress(liElementsProgress);
 const doneList = createUlDone(liElementsDone);
+const doneListDelete = createUlDone(liElementsDoneDelete);
 // END Create UL list with tasks
 // FUNCTION create Ul elements with liElements in function parameters
 function createUlList(liElement) {
@@ -310,23 +321,7 @@ deleteAll.addEventListener('click', (event) => {
   const currentId = target.offsetParent.id;
   const indexArray = tasksArray.findIndex(({ id }) => id === currentId);
   if(target.className === 'btn_all'){
- 
-    while(doneList.firstElementChild){
-      doneList.firstElementChild.remove();
-    }
-    addArrayElement(
-      tasksArray,
-      crypto.randomUUID(),
-      title,
-      description,
-      user,
-      new Date().toLocaleString("ru", options),
-      "done"
-    );
-    createUlDone();
-    createDoneList();
-    addNewList(mapElement());
-    // addNewDoneList();
+      createUlDone(liElementsDoneDelete);
   }
   localStorage.setItem("notes", JSON.stringify(tasksArray));
   localStorage.setItem("currentTaskNumber", tasksArray.length);
